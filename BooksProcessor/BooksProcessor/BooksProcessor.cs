@@ -57,6 +57,8 @@ namespace BooksProcessor
 
                 dbBooks.Insert(books);
             }
+
+            Console.WriteLine("INFO: {0} books processed", books.Count);
         }
     }
 }

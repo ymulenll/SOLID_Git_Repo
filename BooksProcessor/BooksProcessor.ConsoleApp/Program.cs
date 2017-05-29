@@ -15,6 +15,8 @@ namespace BooksProcessor.ConsoleApp
 
             var booksProcessor = new BooksProcessor();
             booksProcessor.ProcessBooks(booksStream);
+
+            Console.ReadKey();
         }
     }
 }
