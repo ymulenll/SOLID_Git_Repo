@@ -36,6 +36,7 @@ namespace BooksProcessor
                 if (!decimal.TryParse(fields[1], out decimal price))
                 {
                     Console.WriteLine("WARN: Book price is not a valid decimal: '{1}'", fields[1]);
+                    continue;
                 }
 
                 var title = fields[0];
