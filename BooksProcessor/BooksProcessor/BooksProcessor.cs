@@ -14,6 +14,87 @@ namespace BooksProcessor
         public void ProcessBooks(Stream stream)
         {
             // Read lines.
+            IEnumerable<string> lines = ReadBooksData(stream);
+
+            // Parse lines.
+            IEnumerable<Book> books = ParseBooks(lines);
+
+            // Persist.
+            PersistBooks(books);
+        }
+
+        private static void PersistBooks(IEnumerable<Book> books)
+        {
+            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Books.db");
+            using (var db = new LiteDatabase(path))
+            {
+                var dbBooks = db.GetCollection<Book>("books");
+
+                dbBooks.Insert(books);
+            }
+            
+            LogMessage("INFO: {0} books processed", books.ToList().Count);
+        }
+
+        private static List<Book> ParseBooks(IEnumerable<string> lines)
+        {
+            var books = new List<Book>();
+            foreach (var line in lines)
+            {
+                // Validate.
+                var fields = line.Split('|');
+                if (!ValidateBookData(fields))
+                {
+                    continue;
+                }
+
+                // Map.
+                Book book = MapBook(fields);
+
+                books.Add(book);
+            }
+
+            return books;
+        }
+
+        private static Book MapBook(string[] fields)
+        {
+            var title = fields[0];
+            var price = decimal.Parse(fields[1]);
+
+            var book = new Book
+            {
+                Price = price,
+                Title = title
+            };
+
+            return book;
+        }
+
+        private static bool ValidateBookData(string[] fields)
+        {
+            if (fields.Length != 2)
+            {
+                LogMessage("WARN: Line malformed. Only {0} field(s) found.", fields.Length);
+                return false;
+            }
+
+            if (!decimal.TryParse(fields[1], out decimal price))
+            {
+                LogMessage("WARN: Book price is not a valid decimal: '{1}'", fields[1]);
+                return false;
+            }
+
+            return true;
+        }
+
+        private static void LogMessage(string message, params object[] args)
+        {
+            Console.WriteLine(message, args);
+        }
+
+        private static IEnumerable<string> ReadBooksData(Stream stream)
+        {
             var lines = new List<string>();
             using (var reader = new StreamReader(stream))
             {
@@ -24,47 +105,7 @@ namespace BooksProcessor
                 }
             }
 
-            // Parse lines.
-            var books = new List<Book>();
-            foreach (var line in lines)
-            {
-                // Validate.
-                var fields = line.Split('|');
-                if (fields.Length != 2)
-                {
-                    Console.WriteLine("WARN: Line malformed. Only {0} field(s) found.", fields.Length);
-                    continue;
-                }
-
-                if (!decimal.TryParse(fields[1], out decimal price))
-                {
-                    Console.WriteLine("WARN: Book price is not a valid decimal: '{1}'", fields[1]);
-                    continue;
-                }
-
-                // Map.
-                var title = fields[0];
-
-                var book = new Book
-                {
-                    Price = price,
-                    Title = title
-                };
-
-                books.Add(book);
-            }
-
-            // Persist.
-            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Books.db");
-            using (var db = new LiteDatabase(path))
-            {
-                var dbBooks = db.GetCollection<Book>("books");
-
-                dbBooks.Insert(books);
-            }
-
-            // Log.
-            Console.WriteLine("INFO: {0} books processed", books.Count);
+            return lines;
         }
     }
 }
