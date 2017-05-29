@@ -13,6 +13,7 @@ namespace BooksProcessor
     {
         public void ProcessBooks(Stream stream)
         {
+            // Read lines.
             var lines = new List<string>();
             using (var reader = new StreamReader(stream))
             {
@@ -23,9 +24,11 @@ namespace BooksProcessor
                 }
             }
 
+            // Parse lines.
             var books = new List<Book>();
             foreach (var line in lines)
             {
+                // Validate.
                 var fields = line.Split('|');
                 if (fields.Length != 2)
                 {
@@ -39,6 +42,7 @@ namespace BooksProcessor
                     continue;
                 }
 
+                // Map.
                 var title = fields[0];
 
                 var book = new Book
@@ -50,6 +54,7 @@ namespace BooksProcessor
                 books.Add(book);
             }
 
+            // Persist.
             var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Books.db");
             using (var db = new LiteDatabase(path))
             {
@@ -58,6 +63,7 @@ namespace BooksProcessor
                 dbBooks.Insert(books);
             }
 
+            // Log.
             Console.WriteLine("INFO: {0} books processed", books.Count);
         }
     }
