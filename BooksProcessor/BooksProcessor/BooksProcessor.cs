@@ -13,13 +13,10 @@ namespace BooksProcessor
     {
         public void ProcessBooks(Stream stream)
         {
-            // Read lines.
             IEnumerable<string> lines = ReadBooksData(stream);
-
-            // Parse lines.
+            
             IEnumerable<Book> books = ParseBooks(lines);
-
-            // Persist.
+            
             PersistBooks(books);
         }
 
@@ -41,14 +38,12 @@ namespace BooksProcessor
             var books = new List<Book>();
             foreach (var line in lines)
             {
-                // Validate.
                 var fields = line.Split('|');
                 if (!ValidateBookData(fields))
                 {
                     continue;
                 }
-
-                // Map.
+                
                 Book book = MapBook(fields);
 
                 books.Add(book);
