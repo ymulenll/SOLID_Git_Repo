@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BooksProcessor
 {
-    class StreamBooksDataProvider : IBooksDataProvider
+    public class StreamBooksDataProvider : IBooksDataProvider
     {
         public IEnumerable<string> GetBooksData()
         {

@@ -54,6 +54,7 @@
     <Compile Include="ILogger.cs" />
     <Compile Include="LiteDBBooksStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimpleBooksMapper.cs" />
     <Compile Include="SimpleBooksParser.cs" />
     <Compile Include="SimpleBooksValidator.cs" />
     <Compile Include="StreamBooksDataProvider.cs" />

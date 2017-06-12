@@ -20,7 +20,7 @@ namespace BooksProcessor
             this.booksStorage = booksStorage;
         }
 
-        public void ProcessBooks(Stream stream)
+        public void ProcessBooks()
         {
             IEnumerable<string> lines = this.booksDataProvider.GetBooksData();
             

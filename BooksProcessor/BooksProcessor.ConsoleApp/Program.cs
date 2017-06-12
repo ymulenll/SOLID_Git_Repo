@@ -11,10 +11,15 @@ namespace BooksProcessor.ConsoleApp
     {
         static void Main(string[] args)
         {
-            var booksStream = Assembly.GetAssembly(typeof(BooksProcessor)).GetManifestResourceStream("BooksProcessor.NewBooks.txt");
-
-            var booksProcessor = new BooksProcessor();
-            booksProcessor.ProcessBooks(booksStream);
+            // Composition using poor's man dependency injection.
+            var booksDataProvider = new StreamBooksDataProvider();
+            var logger = new ConsoleLogger();
+            var booksValidator = new SimpleBooksValidator(logger);
+            var booksMapper = new SimpleBooksMapper();
+            var booksParser = new SimpleBooksParser(booksValidator, booksMapper);
+            var booksStorage = new LiteDBBooksStorage(logger);
+            var booksProcessor = new BooksProcessor(booksDataProvider, booksParser, booksStorage);
+            booksProcessor.ProcessBooks();
 
             Console.ReadKey();
         }
