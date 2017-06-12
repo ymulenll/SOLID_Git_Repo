@@ -17,10 +17,10 @@ namespace BooksProcessor
             
             IEnumerable<Book> books = ParseBooks(lines);
             
-            PersistBooks(books);
+            StoreBooks(books);
         }
 
-        private static void PersistBooks(IEnumerable<Book> books)
+        private static void StoreBooks(IEnumerable<Book> books)
         {
             var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Books.db");
             using (var db = new LiteDatabase(path))
@@ -30,7 +30,7 @@ namespace BooksProcessor
                 dbBooks.Insert(books);
             }
             
-            LogMessage("INFO: {0} books processed", books.ToList().Count);
+            LogMessage("INFO: {0} books processed", books.Count());
         }
 
         private static List<Book> ParseBooks(IEnumerable<string> lines)
@@ -44,7 +44,7 @@ namespace BooksProcessor
                     continue;
                 }
                 
-                Book book = MapBook(fields);
+                Book book = MapBookDataToBookRecord(fields);
 
                 books.Add(book);
             }
@@ -52,7 +52,7 @@ namespace BooksProcessor
             return books;
         }
 
-        private static Book MapBook(string[] fields)
+        private static Book MapBookDataToBookRecord(string[] fields)
         {
             var title = fields[0];
             var price = decimal.Parse(fields[1]);
