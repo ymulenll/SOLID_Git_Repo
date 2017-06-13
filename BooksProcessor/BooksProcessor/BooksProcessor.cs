@@ -1,4 +1,5 @@
 ﻿using BooksProcessor.Interfaces;
+using Microsoft.Practices.ServiceLocation;
 using System.Collections.Generic;
 using System.IO;
 
@@ -12,13 +13,13 @@ namespace BooksProcessor
 
         private IBooksStorage booksStorage;
 
-        public BooksProcessor(IBooksDataProvider booksDataProvider, IBooksParser booksParser, IBooksStorage booksStorage)
+        public BooksProcessor()
         {
-            this.booksDataProvider = booksDataProvider;
+            this.booksDataProvider = ServiceLocator.Current.GetInstance<IBooksDataProvider>();
 
-            this.booksParser = booksParser;
+            this.booksParser = ServiceLocator.Current.GetInstance<IBooksParser>();
 
-            this.booksStorage = booksStorage;
+            this.booksStorage = ServiceLocator.Current.GetInstance<IBooksStorage>();
         }
 
         public void ProcessBooks()

@@ -1,5 +1,6 @@
 ﻿using BooksProcessor.Interfaces;
 using BooksProcessor.LiteDB;
+using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
@@ -34,8 +35,14 @@ namespace BooksProcessor.ConsoleApp
                 container.RegisterType<IBooksStorage, LiteDBBooksStorage>();
                 container.RegisterType<BooksProcessor>();
 
-                var booksProcessor = container.Resolve<BooksProcessor>();
-                booksProcessor.ProcessBooks();
+                using (var serviceLocator = new UnityServiceLocator(container))
+                {
+                    ServiceLocator.SetLocatorProvider(() => serviceLocator);
+
+                    var booksProcessor = container.Resolve<BooksProcessor>();
+
+                    booksProcessor.ProcessBooks();
+                }
             }
             
             Console.ReadKey();
