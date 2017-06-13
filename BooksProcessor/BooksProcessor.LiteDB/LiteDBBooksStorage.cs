@@ -1,4 +1,5 @@
-﻿using LiteDB;
+﻿using BooksProcessor.Interfaces;
+using LiteDB;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BooksProcessor
+namespace BooksProcessor.LiteDB
 {
     public class LiteDBBooksStorage : IBooksStorage
     {

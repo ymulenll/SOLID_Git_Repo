@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BooksProcessor
+namespace BooksProcessor.Interfaces
 {
-    public interface IBooksMapper
+    public interface IBooksParser
     {
-        Book Map(string[] fields);
+        IEnumerable<Book> Parse(IEnumerable<string> lines);
     }
 }

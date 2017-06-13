@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BooksProcessor
+namespace BooksProcessor.Interfaces
 {
-    public interface IBooksStorage
+    public interface IBooksDataProvider
     {
-        void Persist(IEnumerable<Book> books);
+        IEnumerable<string> GetBooksData();
     }
 }

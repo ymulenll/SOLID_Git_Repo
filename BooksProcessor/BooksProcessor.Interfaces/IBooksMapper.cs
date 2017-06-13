@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BooksProcessor
+namespace BooksProcessor.Interfaces
 {
-    public interface IBooksDataProvider
+    public interface IBooksMapper
     {
-        IEnumerable<string> GetBooksData();
+        Book Map(string[] fields);
     }
 }

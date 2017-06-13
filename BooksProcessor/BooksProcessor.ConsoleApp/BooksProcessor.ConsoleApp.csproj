@@ -49,6 +49,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BooksProcessor.Interfaces\BooksProcessor.Interfaces.csproj">
+      <Project>{571B87B0-3839-4D5C-AAE6-A693A84F45F9}</Project>
+      <Name>BooksProcessor.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BooksProcessor.LiteDB\BooksProcessor.LiteDB.csproj">
+      <Project>{CD8F2AB2-C44E-44C4-B06F-33FB780CA55B}</Project>
+      <Name>BooksProcessor.LiteDB</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BooksProcessor\BooksProcessor.csproj">
       <Project>{3ed2d36c-1495-4105-bf64-3fd4297d51d6}</Project>
       <Name>BooksProcessor</Name>

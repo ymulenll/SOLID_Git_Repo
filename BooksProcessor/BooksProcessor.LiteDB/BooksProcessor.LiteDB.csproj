@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3ED2D36C-1495-4105-BF64-3FD4297D51D6}</ProjectGuid>
+    <ProjectGuid>{CD8F2AB2-C44E-44C4-B06F-33FB780CA55B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BooksProcessor</RootNamespace>
-    <AssemblyName>BooksProcessor</AssemblyName>
+    <RootNamespace>BooksProcessor.LiteDB</RootNamespace>
+    <AssemblyName>BooksProcessor.LiteDB</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LiteDB, Version=3.1.0.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiteDB.3.1.1\lib\net35\LiteDB.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,25 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BooksProcessor.cs" />
-    <Compile Include="ConsoleLogger.cs" />
+    <Compile Include="LiteDBBooksStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimpleBooksMapper.cs" />
-    <Compile Include="SimpleBooksParser.cs" />
-    <Compile Include="SimpleBooksValidator.cs" />
-    <Compile Include="StreamBooksDataProvider.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="NewBooks.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BooksProcessor.Interfaces\BooksProcessor.Interfaces.csproj">
       <Project>{571b87b0-3839-4d5c-aae6-a693a84f45f9}</Project>
       <Name>BooksProcessor.Interfaces</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
