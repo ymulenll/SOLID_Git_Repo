@@ -1,6 +1,7 @@
 ﻿using BooksProcessor.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace BooksProcessor
                 return false;
             }
 
-            if (!decimal.TryParse(fields[1], out decimal price))
+            if (!decimal.TryParse(fields[1], NumberStyles.Number , CultureInfo.InvariantCulture, out decimal price))
             {
                 this.logger.LogWarning("Book price is not a valid decimal: '{1}'", fields[1]);
                 return false;
