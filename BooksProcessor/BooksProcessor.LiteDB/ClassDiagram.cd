@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BooksProcessor.LiteDB.LiteDBBooksStorage">
+    <Position X="1.75" Y="2" Width="2" />
+    <Members>
+      <Method Name="LiteDBBooksStorage" Hidden="true" />
+      <Field Name="logger" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LiteDBBooksStorage.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="BooksProcessor.Interfaces.IBooksStorage">
+    <Position X="2" Y="0.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
