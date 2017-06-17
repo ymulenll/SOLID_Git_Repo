@@ -15,15 +15,28 @@ namespace BooksProcessor.ConsoleApp
         static void Main(string[] args)
         {
             // Composition using poor's man dependency injection.
-            //var booksDataProvider = new StreamBooksDataProvider();
-            //var logger = new ConsoleLogger();
-            //var booksValidator = new SimpleBooksValidator(logger);
-            //var booksMapper = new SimpleBooksMapper();
-            //var booksParser = new SimpleBooksParser(booksValidator, booksMapper);
-            //var booksStorage = new LiteDBBooksStorage(logger);
-            //var booksProcessor = new BooksProcessor(booksDataProvider, booksParser, booksStorage);
-            //booksProcessor.ProcessBooks();
+            //PoorManDependencyInjection();
 
+            IoCDependencyInjection();
+
+            Console.ReadKey();
+        }
+
+        private static void PoorManDependencyInjection()
+        {
+            var booksDataProvider = new StreamBooksDataProvider();
+            var logger = new ConsoleLogger();
+            var booksValidator = new SimpleBooksValidator(logger);
+            var booksMapper = new SimpleBooksMapper();
+            var booksParser = new SimpleBooksParser(booksValidator, booksMapper);
+            var booksStorage = new LiteDBBooksStorage(logger);
+            BooksProcessor booksProcessor = new BooksProcessor2(booksDataProvider, booksParser, booksStorage);
+            (booksProcessor as BooksProcessor2)?.Initialize(logger);
+            booksProcessor.ProcessBooks();
+        }
+
+        private static void IoCDependencyInjection()
+        {
             using (var container = new UnityContainer())
             {
                 container.RegisterType<IBooksDataProvider, StreamBooksDataProvider>();
@@ -32,13 +45,11 @@ namespace BooksProcessor.ConsoleApp
                 container.RegisterType<IBooksMapper, SimpleBooksMapper>();
                 container.RegisterType<IBooksParser, SimpleBooksParser>();
                 container.RegisterType<IBooksStorage, LiteDBBooksStorage>();
-                container.RegisterType<BooksProcessor>();
+                container.RegisterType<BooksProcessor2>();
 
-                var booksProcessor = container.Resolve<BooksProcessor>();
+                var booksProcessor = container.Resolve<BooksProcessor2>();
                 booksProcessor.ProcessBooks();
             }
-            
-            Console.ReadKey();
         }
     }
 }
