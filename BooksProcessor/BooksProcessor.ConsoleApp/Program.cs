@@ -30,7 +30,7 @@ namespace BooksProcessor.ConsoleApp
             var booksMapper = new SimpleBooksMapper();
             var booksParser = new SimpleBooksParser(booksValidator, booksMapper);
             var booksStorage = new LiteDBBooksStorage(logger);
-            var booksProcessor = new BooksProcessor(booksDataProvider, booksParser, booksStorage);
+            var booksProcessor = new BooksProcessor2(booksDataProvider, booksParser, booksStorage);
             booksProcessor.ProcessBooks();
         }
 
@@ -44,7 +44,7 @@ namespace BooksProcessor.ConsoleApp
                 container.RegisterType<IBooksMapper, SimpleBooksMapper>();
                 container.RegisterType<IBooksParser, SimpleBooksParser>();
                 container.RegisterType<IBooksStorage, LiteDBBooksStorage>();
-                container.RegisterType<BooksProcessor>();
+                container.RegisterType<BooksProcessor, BooksProcessor2>();
 
                 var booksProcessor = container.Resolve<BooksProcessor>();
                 booksProcessor.ProcessBooks();

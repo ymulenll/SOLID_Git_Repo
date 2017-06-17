@@ -4,30 +4,24 @@ using System.IO;
 
 namespace BooksProcessor
 {
-    public class BooksProcessor
+    public abstract class BooksProcessor
     {
-        private IBooksDataProvider booksDataProvider;
-
-        private IBooksParser booksParser;
-
-        private IBooksStorage booksStorage;
-
-        public BooksProcessor(IBooksDataProvider booksDataProvider, IBooksParser booksParser, IBooksStorage booksStorage)
-        {
-            this.booksDataProvider = booksDataProvider;
-
-            this.booksParser = booksParser;
-
-            this.booksStorage = booksStorage;
-        }
+        protected abstract IEnumerable<string> GetBooksData();
+        protected abstract IEnumerable<Book> Parse(IEnumerable<string> lines);
+        protected abstract void Persist(IEnumerable<Book> books);
 
         public void ProcessBooks()
         {
-            IEnumerable<string> lines = this.booksDataProvider.GetBooksData();
+            // code
+            IEnumerable<string> lines = this.GetBooksData();
+
+            // code
+            IEnumerable<Book> books = this.Parse(lines);
             
-            IEnumerable<Book> books = this.booksParser.Parse(lines);
-            
-            this.booksStorage.Persist(books);
+            // code
+            this.Persist(books);
+
+            // code
         }
     }
 }
