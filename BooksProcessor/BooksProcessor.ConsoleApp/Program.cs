@@ -15,15 +15,27 @@ namespace BooksProcessor.ConsoleApp
         static void Main(string[] args)
         {
             // Composition using poor's man dependency injection.
-            //var booksDataProvider = new StreamBooksDataProvider();
-            //var logger = new ConsoleLogger();
-            //var booksValidator = new SimpleBooksValidator(logger);
-            //var booksMapper = new SimpleBooksMapper();
-            //var booksParser = new SimpleBooksParser(booksValidator, booksMapper);
-            //var booksStorage = new LiteDBBooksStorage(logger);
-            //var booksProcessor = new BooksProcessor(booksDataProvider, booksParser, booksStorage);
-            //booksProcessor.ProcessBooks();
+            //PoorManDependencyInjection();
 
+            IoCDependencyInjection();
+
+            Console.ReadKey();
+        }
+
+        private static void PoorManDependencyInjection()
+        {
+            var booksDataProvider = new StreamBooksDataProvider();
+            var logger = new ConsoleLogger();
+            var booksValidator = new SimpleBooksValidator(logger);
+            var booksMapper = new SimpleBooksMapper();
+            var booksParser = new SimpleBooksParser(booksValidator, booksMapper);
+            var booksStorage = new LiteDBBooksStorage(logger);
+            var booksProcessor = new BooksProcessor(booksDataProvider, booksParser, booksStorage);
+            booksProcessor.ProcessBooks();
+        }
+
+        private static void IoCDependencyInjection()
+        {
             using (var container = new UnityContainer())
             {
                 container.RegisterType<IBooksDataProvider, StreamBooksDataProvider>();
@@ -37,8 +49,6 @@ namespace BooksProcessor.ConsoleApp
                 var booksProcessor = container.Resolve<BooksProcessor>();
                 booksProcessor.ProcessBooks();
             }
-            
-            Console.ReadKey();
         }
     }
 }
