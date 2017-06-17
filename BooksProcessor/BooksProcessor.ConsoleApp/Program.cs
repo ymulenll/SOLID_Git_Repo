@@ -57,8 +57,10 @@ namespace BooksProcessor.ConsoleApp
                         new ResolvedParameter<StopwatchTimerAdapter>(),
                         new ResolvedParameter<ILogger>()));
 
+                // concrete object
                 container.RegisterType<IBooksProcessor, BooksProcessor>();
                 
+                // pipeline
                 container.RegisterType<IBooksProcessor, BooksProcessorLoggerDecorator>(
                     "BooksProcessorLoggerDecorator",
                     new InjectionConstructor(
@@ -69,7 +71,8 @@ namespace BooksProcessor.ConsoleApp
                     new InjectionConstructor(
                         new ResolvedParameter<IBooksProcessor>("BooksProcessorLoggerDecorator"),
                         new ResolvedParameter<ITimer>()));
-                
+
+                // final object
                 var booksProcessor = container.Resolve<IBooksProcessor>("BooksProcessorLoggerTimmingDecorator");
                 booksProcessor.ProcessBooks();
             }
