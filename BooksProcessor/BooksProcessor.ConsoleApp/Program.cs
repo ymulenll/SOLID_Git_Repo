@@ -30,12 +30,15 @@ namespace BooksProcessor.ConsoleApp
             var booksMapper = new SimpleBooksMapper();
             var booksParser = new SimpleBooksParser(booksValidator, booksMapper);
             var booksStorage = new LiteDBBooksStorage(logger);
+
+            var timer = new StopwatchTimerAdapter();
+            var loggerTimer = new LoggingTimerDecorator(timer, logger);
                         
             var booksProcessor = new BooksProcessor(booksDataProvider, booksParser, booksStorage);
             var booksProcessorLogger = new BooksProcessorLoggerDecorator(booksProcessor, logger);
-            var booksProcessorLoggerTimmer = new BooksProcessorTimmingDecorator(booksProcessorLogger);
+            var booksProcessorLoggerTimer = new BooksProcessorTimerDecorator(booksProcessorLogger, loggerTimer);
 
-            booksProcessor.ProcessBooks();
+            booksProcessorLoggerTimer.ProcessBooks();
         }
 
         private static void IoCDependencyInjection()
@@ -49,17 +52,23 @@ namespace BooksProcessor.ConsoleApp
                 container.RegisterType<IBooksParser, SimpleBooksParser>();
                 container.RegisterType<IBooksStorage, LiteDBBooksStorage>();
 
-                container.RegisterType<IBooksProcessor, BooksProcessor>();
+                container.RegisterType<ITimer, LoggingTimerDecorator>(
+                    new InjectionConstructor(
+                        new ResolvedParameter<StopwatchTimerAdapter>(),
+                        new ResolvedParameter<ILogger>()));
 
+                container.RegisterType<IBooksProcessor, BooksProcessor>();
+                
                 container.RegisterType<IBooksProcessor, BooksProcessorLoggerDecorator>(
                     "BooksProcessorLoggerDecorator",
                     new InjectionConstructor(
                         new ResolvedParameter<IBooksProcessor>(), new ResolvedParameter<ILogger>()));
 
-                container.RegisterType<IBooksProcessor, BooksProcessorTimmingDecorator>(
+                container.RegisterType<IBooksProcessor, BooksProcessorTimerDecorator>(
                     "BooksProcessorLoggerTimmingDecorator",
                     new InjectionConstructor(
-                        new ResolvedParameter<IBooksProcessor>("BooksProcessorLoggerDecorator")));
+                        new ResolvedParameter<IBooksProcessor>("BooksProcessorLoggerDecorator"),
+                        new ResolvedParameter<ITimer>()));
                 
                 var booksProcessor = container.Resolve<IBooksProcessor>("BooksProcessorLoggerTimmingDecorator");
                 booksProcessor.ProcessBooks();

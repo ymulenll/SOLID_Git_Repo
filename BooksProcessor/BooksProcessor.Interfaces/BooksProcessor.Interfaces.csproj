@@ -48,6 +48,7 @@
     <Compile Include="IBooksStorage.cs" />
     <Compile Include="IBooksValidator.cs" />
     <Compile Include="ILogger.cs" />
+    <Compile Include="ITimer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
