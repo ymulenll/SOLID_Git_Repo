@@ -59,10 +59,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BooksProcessor.cs" />
-    <Compile Include="BooksProcessorAudit.cs" />
-    <Compile Include="BooksProcessorLoggerDecorator.cs" />
-    <Compile Include="BooksProcessorTimerDecorator.cs" />
     <Compile Include="ConsoleLogger.cs" />
+    <Compile Include="TimerInterceptionBehavior.cs" />
     <Compile Include="LoggingInterceptionBehavior.cs" />
     <Compile Include="LoggingTimerDecorator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

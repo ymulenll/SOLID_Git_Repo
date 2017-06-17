@@ -8,12 +8,12 @@ using BooksProcessor.Interfaces;
 
 namespace BooksProcessor
 {
-    public class LoggingInterceptionBehavior : IInterceptionBehavior
+    public class TimerInterceptionBehavior : IInterceptionBehavior
     {
-        ILogger logger;
-        public LoggingInterceptionBehavior(ILogger logger)
+        ITimer timer;
+        public TimerInterceptionBehavior(ITimer timer)
         {
-            this.logger = logger;
+            this.timer = timer;
         }
         public bool WillExecute => true;
 
@@ -25,22 +25,13 @@ namespace BooksProcessor
         public IMethodReturn Invoke(IMethodInvocation input, GetNextInterceptionBehaviorDelegate getNext)
         {
             // Before invoking the method on the original target.
-            this.logger.LogInfo($"Method {input.MethodBase.Name} started");
+            this.timer.Start();
 
             // Invoke the next behavior in the chain.
             var result = getNext()(input, getNext);
 
             // After invoking the method on the original target.
-            if (result.Exception != null)
-            {
-                this.logger.LogInfo(String.Format(
-                  $"Method {input.MethodBase.Name} threw exception {result.Exception.Message}"));
-            }
-            else
-            {
-                this.logger.LogInfo(String.Format(
-                  $"Method {input.MethodBase.Name} Finished"));
-            }
+            this.timer.Stop();            
 
             return result;
         }

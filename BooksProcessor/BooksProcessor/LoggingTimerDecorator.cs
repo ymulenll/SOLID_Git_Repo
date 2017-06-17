@@ -25,7 +25,7 @@ namespace BooksProcessor
         public TimeSpan Stop()
         {
             var elapsedTime = this.decoratedTimmer.Stop();
-            this.logger.LogInfo("The method took {0} secounds to complete", elapsedTime.TotalSeconds);
+            this.logger.LogInfo($"The method took {elapsedTime.TotalSeconds} secounds to complete");
             return elapsedTime;
         }
     }
