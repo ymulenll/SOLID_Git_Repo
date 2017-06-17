@@ -4,7 +4,7 @@ using System.IO;
 
 namespace BooksProcessor
 {
-    public class BooksProcessor
+    public class BooksProcessor : IBooksProcessor
     {
         private IBooksDataProvider booksDataProvider;
 

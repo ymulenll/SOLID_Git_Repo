@@ -44,6 +44,7 @@
     <Compile Include="IBooksDataProvider.cs" />
     <Compile Include="IBooksMapper.cs" />
     <Compile Include="IBooksParser.cs" />
+    <Compile Include="IBooksProcessor.cs" />
     <Compile Include="IBooksStorage.cs" />
     <Compile Include="IBooksValidator.cs" />
     <Compile Include="ILogger.cs" />

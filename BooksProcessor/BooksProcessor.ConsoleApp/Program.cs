@@ -44,9 +44,9 @@ namespace BooksProcessor.ConsoleApp
                 container.RegisterType<IBooksMapper, SimpleBooksMapper>();
                 container.RegisterType<IBooksParser, SimpleBooksParser>();
                 container.RegisterType<IBooksStorage, LiteDBBooksStorage>();
-                container.RegisterType<BooksProcessor>();
+                container.RegisterType<IBooksProcessor, BooksProcessor>();
 
-                var booksProcessor = container.Resolve<BooksProcessor>();
+                var booksProcessor = container.Resolve<IBooksProcessor>();
                 booksProcessor.ProcessBooks();
             }
         }
