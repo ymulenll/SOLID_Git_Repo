@@ -46,18 +46,12 @@ namespace BooksProcessor.ConsoleApp
         {
             using (var container = new UnityContainer())
             {
-                container.RegisterType<IBooksDataProvider, StreamBooksDataProvider>(
-                    new Interceptor<InterfaceInterceptor>(),
-                    new InterceptionBehavior<LoggingInterceptionBehavior>(),
-                    new InterceptionBehavior<TimerInterceptionBehavior>());
+                container.RegisterType<IBooksDataProvider, StreamBooksDataProvider>();
 
                 container.RegisterType<ILogger, ConsoleLogger>();
                 container.RegisterType<IBooksValidator, SimpleBooksValidator>();
                 container.RegisterType<IBooksMapper, SimpleBooksMapper>();
-                container.RegisterType<IBooksParser, SimpleBooksParser>(
-                    new Interceptor<InterfaceInterceptor>(),
-                    new InterceptionBehavior<LoggingInterceptionBehavior>(),
-                    new InterceptionBehavior<TimerInterceptionBehavior>());
+                container.RegisterType<IBooksParser, SimpleBooksParser>();
 
                 container.RegisterType<IBooksStorage, LiteDBBooksStorage>(
                     new Interceptor<InterfaceInterceptor>(),
@@ -73,7 +67,6 @@ namespace BooksProcessor.ConsoleApp
                 container.RegisterType<IBooksProcessor, BooksProcessor>();
 
                 // pipeline
-                container.AddNewExtension<Interception>();
                 container.RegisterType<IBooksProcessor, BooksProcessor>(
                     "BooksProcessorLoggerTimerInterceptor",
                     new Interceptor<InterfaceInterceptor>(),
@@ -90,6 +83,9 @@ namespace BooksProcessor.ConsoleApp
                 //    new InjectionConstructor(
                 //        new ResolvedParameter<IBooksProcessor>("BooksProcessorLoggerInterceptor"),
                 //        new ResolvedParameter<ITimer>()));
+
+                // add interception extension to unity container
+                container.AddNewExtension<Interception>();
 
                 // final object
                 var booksProcessor = container.Resolve<IBooksProcessor>("BooksProcessorLoggerTimerInterceptor");
