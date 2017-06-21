@@ -54,12 +54,12 @@
   <ItemGroup>
     <Compile Include="BooksProcessor.cs" />
     <Compile Include="BooksProcessor2.cs" />
-    <Compile Include="ConsoleLogger.cs" />
+    <Compile Include="Adapters\ConsoleLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimpleBooksMapper.cs" />
-    <Compile Include="SimpleBooksParser.cs" />
-    <Compile Include="SimpleBooksValidator.cs" />
-    <Compile Include="StreamBooksDataProvider.cs" />
+    <Compile Include="Miscellaneous\SimpleBooksMapper.cs" />
+    <Compile Include="Miscellaneous\SimpleBooksParser.cs" />
+    <Compile Include="Miscellaneous\SimpleBooksValidator.cs" />
+    <Compile Include="Miscellaneous\StreamBooksDataProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="NewBooks.txt" />
