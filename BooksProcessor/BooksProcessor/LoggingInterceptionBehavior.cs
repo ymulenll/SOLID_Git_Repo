@@ -31,16 +31,7 @@ namespace BooksProcessor
             var result = getNext()(input, getNext);
 
             // After invoking the method on the original target.
-            if (result.Exception != null)
-            {
-                this.logger.LogInfo(String.Format(
-                  $"Method {input.MethodBase.Name} threw exception {result.Exception.Message}"));
-            }
-            else
-            {
-                this.logger.LogInfo(String.Format(
-                  $"Method {input.MethodBase.Name} Finished"));
-            }
+            this.logger.LogInfo(String.Format($"Method {input.MethodBase.Name} Finished"));
 
             return result;
         }
