@@ -1,64 +1,33 @@
-﻿using LiteDB;
-using System;
+﻿using BooksProcessor.Interfaces;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BooksProcessor
 {
     public class BooksProcessor
     {
-        public void ProcessBooks(Stream stream)
+        private IBooksDataProvider booksDataProvider;
+
+        private IBooksParser booksParser;
+
+        private IBooksStorage booksStorage;
+
+        public BooksProcessor(IBooksDataProvider booksDataProvider, IBooksParser booksParser, IBooksStorage booksStorage)
         {
-            var lines = new List<string>();
-            using (var reader = new StreamReader(stream))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    lines.Add(line);
-                }
-            }
+            this.booksDataProvider = booksDataProvider;
 
-            var books = new List<Book>();
-            foreach (var line in lines)
-            {
-                var fields = line.Split('|');
-                if (fields.Length != 2)
-                {
-                    Console.WriteLine("WARN: Line malformed. Only {0} field(s) found.", fields.Length);
-                    continue;
-                }
+            this.booksParser = booksParser;
 
-                if (!decimal.TryParse(fields[1], out decimal price))
-                {
-                    Console.WriteLine("WARN: Book price is not a valid decimal: '{1}'", fields[1]);
-                    continue;
-                }
+            this.booksStorage = booksStorage;
+        }
 
-                var title = fields[0];
-
-                var book = new Book
-                {
-                    Price = price,
-                    Title = title
-                };
-
-                books.Add(book);
-            }
-
-            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Books.db");
-            using (var db = new LiteDatabase(path))
-            {
-                var dbBooks = db.GetCollection<Book>("books");
-
-                dbBooks.Insert(books);
-            }
-
-            Console.WriteLine("INFO: {0} books processed", books.Count);
+        public void ProcessBooks()
+        {
+            IEnumerable<string> lines = this.booksDataProvider.GetBooksData();
+            
+            IEnumerable<Book> books = this.booksParser.Parse(lines);
+            
+            this.booksStorage.Persist(books);
         }
     }
 }

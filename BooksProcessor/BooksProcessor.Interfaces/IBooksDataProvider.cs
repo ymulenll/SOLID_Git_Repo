@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BooksProcessor
+namespace BooksProcessor.Interfaces
 {
-    public class Book
+    public interface IBooksDataProvider
     {
-        public string Title { get; set; }
-
-        public decimal Price { get; set; }
+        IEnumerable<string> GetBooksData();
     }
 }
